@@ -14,7 +14,7 @@ public class Greeter {
 
 /**
  * This is a class.
- * @param someone
+ * @param someone **text data to be displayed**
  * @return String
  */
 
