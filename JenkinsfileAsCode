@@ -1,3 +1,5 @@
+#!/usr/bin/env groovy
+def currentBranch = env.BRANCH_NAME
 pipeline {
     agent any
     tools {
@@ -10,7 +12,7 @@ pipeline {
 				echo env.AUTOMATE_ENTERPRISE
 				echo env.AUTOMATE_URL
 				echo 'BranchName'
-				echo env.BRANCH_NAME
+				echo currentBranch
 				echo 'JobName'
 				echo env.JOB_NAME
                 bat 'mvn clean package'
