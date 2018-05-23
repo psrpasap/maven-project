@@ -1,9 +1,5 @@
-def fetch(scm, cookbookDirectory, currentBranch){
-	    echo "Inside fetch method"
-		checkout([$class: 'GitSCM',branches: scm.branches,    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-		extensions: scm.extensions + [ [$class: 'RelativeTargetDirectory',relativeTargetDir: cookbookDirectory],[$class: 'CleanBeforeCheckout'],
-        [$class: 'LocalBranch', localBranch: currentBranch]],    userRemoteConfigs: scm.userRemoteConfigs  ])
-}
+#!/usr/bin/env groovy
+
 pipeline {
     agent any
     tools {
@@ -13,7 +9,12 @@ pipeline {
     stages{
         stage('Build'){
             steps {
-			    
+			    def fetch(scm, cookbookDirectory, currentBranch){
+						echo "Inside fetch method"
+						checkout([$class: 'GitSCM',branches: scm.branches,    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+						extensions: scm.extensions + [ [$class: 'RelativeTargetDirectory',relativeTargetDir: cookbookDirectory],[$class: 'CleanBeforeCheckout'],
+						[$class: 'LocalBranch', localBranch: currentBranch]],    userRemoteConfigs: scm.userRemoteConfigs  ])
+				}
 			    echo 'Inside Build stage *****'
 				echo env.AUTOMATE_ENTERPRISE
 				echo env.AUTOMATE_URL
