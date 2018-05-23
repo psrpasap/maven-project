@@ -1,15 +1,15 @@
-
+def fetch(scm, cookbookDirectory, currentBranch){
+	    echo "Inside fetch method"
+		checkout([$class: 'GitSCM',branches: scm.branches,    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+		extensions: scm.extensions + [ [$class: 'RelativeTargetDirectory',relativeTargetDir: cookbookDirectory],[$class: 'CleanBeforeCheckout'],
+        [$class: 'LocalBranch', localBranch: currentBranch]],    userRemoteConfigs: scm.userRemoteConfigs  ])
+}
 pipeline {
     agent any
     tools {
         maven 'localMaven'
     }
-	def fetch(scm, cookbookDirectory, currentBranch){
-	    echo "Inside fetch method"
-		checkout([$class: 'GitSCM',branches: scm.branches,    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-		extensions: scm.extensions + [ [$class: 'RelativeTargetDirectory',relativeTargetDir: cookbookDirectory],[$class: 'CleanBeforeCheckout'],
-        [$class: 'LocalBranch', localBranch: currentBranch]],    userRemoteConfigs: scm.userRemoteConfigs  ])
-    }
+
     stages{
         stage('Build'){
             steps {
