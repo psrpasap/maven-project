@@ -9,12 +9,7 @@ pipeline {
     stages{
         stage('Build'){
             steps {
-			    def fetch(scm, cookbookDirectory, currentBranch){
-						echo "Inside fetch method"
-						checkout([$class: 'GitSCM',branches: scm.branches,    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-						extensions: scm.extensions + [ [$class: 'RelativeTargetDirectory',relativeTargetDir: cookbookDirectory],[$class: 'CleanBeforeCheckout'],
-						[$class: 'LocalBranch', localBranch: currentBranch]],    userRemoteConfigs: scm.userRemoteConfigs  ])
-				}
+			   
 			    echo 'Inside Build stage *****'
 				echo env.AUTOMATE_ENTERPRISE
 				echo env.AUTOMATE_URL
@@ -27,7 +22,11 @@ pipeline {
 				echo "Calling fetch method"
 				currentBranch = env.GIT_BRANCH
 				cookbookDirectory=""
-				fetch(scm, cookbookDirectory, currentBranch)
+				echo "Inside fetch method"
+						checkout([$class: 'GitSCM',branches: scm.branches,    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+						extensions: scm.extensions + [ [$class: 'RelativeTargetDirectory',relativeTargetDir: cookbookDirectory],[$class: 'CleanBeforeCheckout'],
+						[$class: 'LocalBranch', localBranch: currentBranch]],    userRemoteConfigs: scm.userRemoteConfigs  ]
+				
                 bat 'mvn clean package'
             }
             post {
