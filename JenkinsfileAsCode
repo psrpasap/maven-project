@@ -20,10 +20,8 @@ pipeline {
 				echo 'JobName'
 				echo env.JOB_NAME
 				echo "Calling fetch method"
-				currentBranch = env.GIT_BRANCH
-				cookbookDirectory=""
 				echo "Inside fetch method"
-						checkout([$class: 'GitSCM',branches: scm.branches,    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+				checkout([$class: 'GitSCM',branches: scm.branches,    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
 						extensions: scm.extensions + [ [$class: 'RelativeTargetDirectory',relativeTargetDir: cookbookDirectory],[$class: 'CleanBeforeCheckout'],
 						[$class: 'LocalBranch', localBranch: currentBranch]],    userRemoteConfigs: scm.userRemoteConfigs  ])
 				
