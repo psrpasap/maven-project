@@ -4,6 +4,12 @@ pipeline {
     tools {
         maven 'localMaven'
     }
+	def fetch(scm, cookbookDirectory, currentBranch){
+	    echo "Inside fetch method"
+		checkout([$class: 'GitSCM',branches: scm.branches,    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
+		extensions: scm.extensions + [ [$class: 'RelativeTargetDirectory',relativeTargetDir: cookbookDirectory],[$class: 'CleanBeforeCheckout'],
+        [$class: 'LocalBranch', localBranch: currentBranch]],    userRemoteConfigs: scm.userRemoteConfigs  ])
+    }
     stages{
         stage('Build'){
             steps {
@@ -17,6 +23,10 @@ pipeline {
 				echo "GitBRanch is : "+ env.GIT_BRANCH
 				echo 'JobName'
 				echo env.JOB_NAME
+				echo "Calling fetch method"
+				currentBranch = env.GIT_BRANCH
+				cookbookDirectory=""
+				fetch(scm, cookbookDirectory, currentBranch)
                 bat 'mvn clean package'
             }
             post {
