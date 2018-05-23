@@ -23,11 +23,11 @@ pipeline {
 				echo "Inside fetch method"
 				echo "scm.branches : " + scm.branches
 				echo "doGenerateSubmoduleConfigurations : "+ scm.doGenerateSubmoduleConfigurations
-				echo " scm.extensions + [ [$class: 'RelativeTargetDirectory',relativeTargetDir: cookbookDirectory],[$class: 'CleanBeforeCheckout'],
+				echo " scm.extensions + [ [$class: 'RelativeTargetDirectory',relativeTargetDir: ""],[$class: 'CleanBeforeCheckout'],
 						[$class: 'LocalBranch', localBranch: env.GIT_BRANCH]]"
 				echo "userRemoteConfigs:"+  scm.userRemoteConfigs 
 				checkout([$class: 'GitSCM',branches: scm.branches,    doGenerateSubmoduleConfigurations: scm.doGenerateSubmoduleConfigurations,
-						extensions: scm.extensions + [ [$class: 'RelativeTargetDirectory',relativeTargetDir: cookbookDirectory],[$class: 'CleanBeforeCheckout'],
+						extensions: scm.extensions + [ [$class: 'RelativeTargetDirectory',relativeTargetDir: ""],[$class: 'CleanBeforeCheckout'],
 						[$class: 'LocalBranch', localBranch: currentBranch]],    userRemoteConfigs: scm.userRemoteConfigs  ])
 				
                 bat 'mvn clean package'
