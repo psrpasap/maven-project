@@ -1,5 +1,4 @@
-#!/usr/bin/env groovy
-def currentBranch = env.BRANCH_NAME
+
 pipeline {
     agent any
     tools {
@@ -8,11 +7,14 @@ pipeline {
     stages{
         stage('Build'){
             steps {
+			    
 			    echo 'Inside Build stage *****'
 				echo env.AUTOMATE_ENTERPRISE
 				echo env.AUTOMATE_URL
 				echo 'BranchName'
-				echo currentBranch
+				checkout scm
+				echo "GitLocalBranch is:  "+ env.GIT_LOCAL_BRANCH
+				echo "GitBRanch is : "+ env.GIT_BRANCH
 				echo 'JobName'
 				echo env.JOB_NAME
                 bat 'mvn clean package'
